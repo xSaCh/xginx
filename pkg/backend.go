@@ -8,40 +8,30 @@ import (
 	"sync"
 )
 
-type Backend interface {
-	IsAlive() bool
-	Serve(http.ResponseWriter, *http.Request)
-}
-
-type backend struct {
+type Backend struct {
 	URL          *url.URL
 	Alive        bool
 	ReverseProxy *httputil.ReverseProxy
 	Lock         sync.RWMutex
 }
 
-func NewBackend(url *url.URL) Backend {
+func NewBackend(url *url.URL) *Backend {
 	proxy := httputil.NewSingleHostReverseProxy(url)
 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
 		log.Printf("Error in [%s] for %s: %s", url, r.RequestURI, err.Error())
 		http.Error(w, "Service Unavailable", http.StatusServiceUnavailable)
 	}
-	return &backend{
+	return &Backend{
 		URL:          url,
 		Alive:        true,
 		ReverseProxy: proxy,
 	}
 }
 
-func (b *backend) IsAlive() bool {
+func (b *Backend) IsAlive() bool {
 	return b.Alive
 }
 
-func (b *backend) Serve(w http.ResponseWriter, r *http.Request) {
-
+func (b *Backend) Serve(w http.ResponseWriter, r *http.Request) {
 	b.ReverseProxy.ServeHTTP(w, r)
-}
-
-type ServerPool struct {
-	Servers []Backend
 }
