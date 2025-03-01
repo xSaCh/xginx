@@ -12,7 +12,7 @@ const PORT = 5000
 
 func main() {
 	lb := xginx.NewLoadBalancer()
-	lb.AddBackend(&url.URL{Scheme: "http", Host: "localhost:8082"})
+	lb.AddBackend(&url.URL{Scheme: "http", Host: "localhost:8080"})
 	lb.AddBackend(&url.URL{Scheme: "http", Host: "localhost:8081"})
 
 	fmt.Printf("Running xginx on %d\n", PORT)
