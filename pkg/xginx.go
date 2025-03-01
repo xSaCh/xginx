@@ -4,13 +4,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 type LoadBalancer struct {
+	ServerPool ServerPool
 }
 
 func NewLoadBalancer() *LoadBalancer {
 	return &LoadBalancer{}
+}
+
+func (lb *LoadBalancer) AddBackend(url *url.URL) {
+	lb.ServerPool.Servers = append(lb.ServerPool.Servers, NewBackend(url))
 }
 
 func (lb *LoadBalancer) Router(w http.ResponseWriter, r *http.Request) {
@@ -22,5 +28,5 @@ func (lb *LoadBalancer) Router(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	log.Print(lg)
-	w.Write(fmt.Appendf(nil, "Hello from %s", r.RequestURI))
+	lb.ServerPool.Servers[0].Serve(w, r)
 }
