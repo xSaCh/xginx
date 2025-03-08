@@ -39,7 +39,6 @@ func (a *SchedulerAlgorithm) UnmarshalYAML(value *yaml.Node) error {
 
 type Scheduler interface {
 	GetNextBackend() *pkg.Backend
-	T() *pkg.ServerPool
 }
 
 func NewScheduler(s SchedulerAlgorithm, pool *pkg.ServerPool) Scheduler {

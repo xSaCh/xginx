@@ -27,7 +27,3 @@ func (rr *RoundRobin) GetNextBackend() *pkg.Backend {
 	}
 	return nil
 }
-
-func (rr *RoundRobin) T() *pkg.ServerPool {
-	return rr.pool
-}

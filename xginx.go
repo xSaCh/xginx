@@ -51,11 +51,3 @@ func (lb *LoadBalancer) Router(w http.ResponseWriter, r *http.Request) {
 
 	b.Serve(w, r)
 }
-
-func (lb *LoadBalancer) TT() {
-	q := lb.scheduler.T()
-	if q == nil {
-		fmt.Println("NULLL")
-	}
-	fmt.Printf("%d \n", len(q.Servers))
-}

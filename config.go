@@ -84,14 +84,15 @@ func setDefaults(config *Config) {
 		config.LoadBalancer.Name = "xginx"
 	}
 	if config.LoadBalancer.Host == "" {
-		config.LoadBalancer.Host = "0.0.0.0"
+		config.LoadBalancer.Host = "127.0.0.1"
 	}
 	if config.LoadBalancer.Port == 0 {
-		config.LoadBalancer.Port = 8080
+		config.LoadBalancer.Port = 5000
 	}
 	if config.LoadBalancer.Scheduler == "" {
 		config.LoadBalancer.Scheduler = schedulers.SCHEDULER_ROUND_ROBIN
 	}
+
 	if config.LoadBalancer.HealthCheck.Interval == 0 {
 		config.LoadBalancer.HealthCheck.Interval = 5
 	}
