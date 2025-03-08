@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -17,6 +18,10 @@ func main() {
 		Scheduler: schedulers.SCHEDULER_ROUND_ROBIN,
 	}
 	lb := xginx.NewLoadBalancer(config)
+	if lb == nil {
+		log.Fatalf("Couldn't create LB")
+		return
+	}
 	ticker := time.NewTicker(time.Minute * 2)
 	defer ticker.Stop()
 

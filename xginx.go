@@ -26,6 +26,9 @@ func NewLoadBalancer(config *LoadBalancerConfig) *LoadBalancer {
 		Config:     *config,
 	}
 	lb.scheduler = schedulers.NewScheduler(config.Scheduler, &lb.ServerPool)
+	if lb.scheduler == nil {
+		return nil
+	}
 	return lb
 }
 
