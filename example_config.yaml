@@ -1,0 +1,41 @@
+xginx:
+  name: "MyCustomLB" # Name of the load balancer
+  host: "0.0.0.0" # Host address to bind
+  port: 8080 # Port to listen on
+
+  scheduler: "round_robin2" # Load balancing algorithm: "round_robin", "least_connections", "ip_hash"
+
+  health_check:
+    enabled: true
+    interval: 5 # Interval (in seconds) for health checks
+    timeout: 2 # Timeout (in seconds) for a response
+    retries: 3 # Number of retries before marking a server as down
+    path: "/health" # Health check path (only for HTTP mode)
+    method: "GET" # HTTP method for health check
+
+  backend_servers:
+    - name: "Server1"
+      address: "192.168.1.2"
+      port: 8081
+      weight: 1 # Optional: Load distribution weight
+    - name: "Server2"
+      address: "192.168.1.3"
+      port: 8082
+      weight: 2 # Higher weight means more requests
+
+  security:
+    tls:
+      enabled: false
+      certificate: "/path/to/cert.pem"
+      private_key: "/path/to/key.pem"
+    rate_limiting:
+      enabled: false
+      requests_per_second: 100
+
+  logging:
+    level: "info" # Log levels: "debug", "info", "warn", "error"
+    file: "/var/log/load_balancer.log"
+
+  sticky_sessions:
+    enabled: false
+    type: "ip_hash" # Options: "ip_hash", "cookie"

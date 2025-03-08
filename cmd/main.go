@@ -5,19 +5,28 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/xSaCh/xginx"
-	"github.com/xSaCh/xginx/pkg/schedulers"
 )
 
 const PORT = 5000
 
 func main() {
-	config := &xginx.LoadBalancerConfig{
-		Scheduler: schedulers.SCHEDULER_ROUND_ROBIN,
+	config, err := xginx.LoadConfig("example_config.yaml")
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		os.Exit(1)
 	}
-	lb := xginx.NewLoadBalancer(config)
+
+	fmt.Printf("Loaded config: %+v\n", config)
+
+	lb := xginx.NewLoadBalancer(&config.LoadBalancer)
+	if lb == nil {
+		log.Fatalf("can't create lb")
+		return
+	}
 	if lb == nil {
 		log.Fatalf("Couldn't create LB")
 		return
@@ -40,4 +49,15 @@ func main() {
 
 	fmt.Printf("Running xginx on %d\n", PORT)
 	http.ListenAndServe(fmt.Sprintf(":%d", PORT), http.HandlerFunc(lb.Router))
+}
+
+func main2() {
+	config, err := xginx.LoadConfig("example_config.yaml")
+	if err != nil {
+		fmt.Println("Error loading config:", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Loaded config: %+v\n", config)
+
 }

@@ -10,10 +10,6 @@ import (
 	"github.com/xSaCh/xginx/pkg/schedulers"
 )
 
-type LoadBalancerConfig struct {
-	Scheduler schedulers.Schedulers
-}
-
 type LoadBalancer struct {
 	ServerPool pkg.ServerPool
 	Config     LoadBalancerConfig

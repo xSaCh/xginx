@@ -4,10 +4,10 @@ import (
 	"github.com/xSaCh/xginx/pkg"
 )
 
-type Schedulers string
+type SchedulerAlgorithm string
 
 const (
-	SCHEDULER_ROUND_ROBIN Schedulers = "ROUND_ROBIN"
+	SCHEDULER_ROUND_ROBIN SchedulerAlgorithm = "round_robin"
 )
 
 type Scheduler interface {
@@ -15,7 +15,7 @@ type Scheduler interface {
 	T() *pkg.ServerPool
 }
 
-func NewScheduler(s Schedulers, pool *pkg.ServerPool) Scheduler {
+func NewScheduler(s SchedulerAlgorithm, pool *pkg.ServerPool) Scheduler {
 	switch s {
 	case SCHEDULER_ROUND_ROBIN:
 		return NewRoundRobin(pool)
