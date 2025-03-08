@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/xSaCh/xginx/pkg/schedulers"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
